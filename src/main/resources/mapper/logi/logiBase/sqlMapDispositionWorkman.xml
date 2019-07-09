@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.seoulit.erp.logi.logiBase.dao.DispositionWorkmanDAO">
+
+	
+
+	<resultMap type="dispositionWorkTO" id="dispositionResult">
+		<result property="factoryCode" column="FACTORY_CODE" />
+		<result property="factoryProductionLineNo" column="FACTORY_PRODUCTION_LINE_NO" />
+		<result property="productionLineCode" column="PRODUCTION_LINE_CODE" />
+		<result property="empCode" column="EMP_CODE" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="position" column="POSITION" />
+		<result property="employmentStatus" column="EMPLOYMENT_STATUS" />
+	</resultMap>
+
+	<select id="selectDispositionWorkmans" parameterType="map" resultMap="dispositionResult">
+		SELECT * FROM DISPOSITION_OF_WORKMAN WHERE FACTORY_CODE = #{factoryCode}
+		<if test="code=='productionLine'">
+			AND FACTORY_PRODUCTION_LINE_NO = #{fPLNo}
+		</if>
+	</select>
+
+</mapper>

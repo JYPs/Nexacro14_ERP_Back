@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.seoulit.erp.logi.logiBase.dao.FactoryProductionLineDAO">
+
+	<!-- FactoryProductionLineDAO -->
+	<resultMap type="factoryPLTO" id="factoryPLResult">
+		<result property="factoryCode" column="FACTORY_CODE" />
+		<result property="factoryProductionLineNo"
+			column="FACTORY_PRODUCTION_LINE_NO" />
+		<result property="productionLineCode"
+			column="PRODUCTION_LINE_CODE" />
+		<result property="availableStatus" column="AVAILABLE_STATUS" />
+		<result property="productCode" column="PRODUCT_CODE" />
+		<result property="jobGoalCount" column="JOB_GOAL_COUNT" />
+		<result property="productionCount" column="PRODUCTION_COUNT" />
+		<result property="jobEndDate" column="JOB_END_DATE" />
+		<result property="workInstructionNo" column="WORK_INSTRUCTION_NO" />
+	</resultMap>
+
+	<select id="selectFactoryProductionLines" parameterType="map"
+		resultMap="factoryPLResult">
+		SELECT * FROM FACTORY_PRODUCTION_LINE 
+		<where>
+		<if test="code=='factoryCode'">
+		FACTORY_CODE = #{factoryCode}
+		</if>
+		<if test="code=='workInstructionNo'">
+		WORK_INSTRUCTION_NO = #{workInstructionNo}
+		</if>
+		</where>
+		
+	</select>
+
+	<insert id="insertFactoryPL"
+		parameterType="factoryPLTO">
+		INSERT INTO FACTORY_PRODUCTION_LINE
+		(FACTORY_CODE,FACTORY_PRODUCTION_LINE_NO,PRODUCTION_LINE_CODE,AVAILABLE_STATUS,PRODUCT_CODE,JOB_GOAL_COUNT,PRODUCTION_COUNT,JOB_END_DATE)
+		VALUES ( #{factoryCode}, #{factoryProductionLineNo},
+		#{productionLineCode}, #{availableStatus}, #{productCode},
+		#{jobGoalCount}, #{ProductionCount}, #{jobEndDate} )
+	</insert>
+	<update id="updateFactoryPL"
+		parameterType="factoryPLTO">
+		UPDATE FACTORY_PRODUCTION_LINE
+		SET PRODUCTION_LINE_CODE =
+		#{productionLineCode}, AVAILABLE_STATUS = #{availableStatus},
+		PRODUCT_CODE = #{productCode},
+		JOB_GOAL_COUNT = #{jobGoalCount},
+		PRODUCTION_COUNT = #{productionCount}, JOB_END_DATE = #{jobEndDate}
+		WHERE FACTORY_CODE = #{factoryCode} and FACTORY_PRODUCTION_LINE_NO = #{factoryProductionLineNo}
+	</update>
+	<delete id="deleteFactoryPL"
+		parameterType="factoryPLTO">
+		DELETE FROM FACTORY_PRODUCTION_LINE
+		WHERE fACTORY_CODE = #{factoryCode} and FACTORY_PRODUCTION_LINE_NO = #{factoryProductionLineNo}
+		and PRODUCTION_LINE_CODE = #{productionLineCode}
+	</delete>
+	
+	
+</mapper>

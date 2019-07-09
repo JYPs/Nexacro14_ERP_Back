@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.seoulit.erp.logi.logiBase.dao.ProductionLineDAO">
+
+	<resultMap type="productionLineTO" id="productionLineResult">
+		<result property="productionLineCode" column="PRODUCTION_LINE_CODE" />
+		<result property="productableItemCode" column="PRODUCTABLE_ITEM_CODE" />
+		<result property="minAvlStaff" column="MIN_AVL_STAFF" />
+		<result property="maxAvlStaff" column="MAX_AVL_STAFF" />
+		<result property="dailyAvrgPrdct" column="DAILY_AVRG_PRDCT" />
+	</resultMap>
+	
+	<!-- 생산라인조회 -->
+	<select id="selectProductionLineList" resultMap="productionLineResult">
+		SELECT * FROM PRODUCTION_LINE
+	</select>
+	
+	<update id="updateProductionLine" parameterType="productionLineTO">
+		UPDATE 
+		PRODUCTION_LINE	SET 
+			 PRODUCTABLE_ITEM_CODE = #{productableItemCode}
+			,MIN_AVL_STAFF = #{minAvlStaff}
+			,MAX_AVL_STAFF = #{maxAvlStaff}
+			,DAILY_AVRG_PRDCT = #{dailyAvrgPrdct}
+			WHERE PRODUCTION_LINE_CODE = #{productionLineCode}
+	</update>
+	
+	<insert id="insertProductionLine" parameterType="productionLineTO">
+		INSERT INTO PRODUCTION_LINE
+		VALUES
+		(
+		#{productionLineCode}
+		, #{productableItemCode}
+		, #{minAvlStaff}
+		, #{maxAvlStaff}
+		, #{dailyAvrgPrdct}
+		)
+	</insert>
+	
+	<delete id="deleteProductionLine" parameterType="productionLineTO">
+		DELETE FROM PRODUCTION_LINE
+		WHERE
+		PRODUCTION_LINE_CODE = #{productionLineCode}
+	</delete>
+</mapper>

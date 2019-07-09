@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.seoulit.erp.logi.logiBase.dao.FactoryDAO">
+
+	<!-- factoryDAO -->
+
+	<resultMap type="factoryTO" id="factoryResult">
+
+		<result property="factoryCode" column="FACTORY_CODE" />
+		<result property="factoryName" column="FACTORY_NAME" />
+		<result property="factoryManagerCode"
+			column="FACTORY_MANAGER_CODE" />
+		<result property="availableCapacity"
+			column="AVAILABLE_CAPACITY" />
+		<result property="availableStatus" column="AVAILABLE_STATUS" />
+		<result property="phone" column="PHONE" />
+		<result property="adress" column="ADRESS" />
+	</resultMap>
+<!-- all로 받아오면 모든 공장을, all이 아니라면 뷰단에서 가져온 아이템 품목을 생산하는 공장정보를 가지고 갈것입니다. 쿼리문 대충 짜고 지나갑니다~
+		어차피 추가하면서 계속 수정해야해요-->
+	<select id="selectFactoryList" resultMap="factoryResult"
+		parameterType="map">
+		SELECT DISTINCT F.*
+		<if test="itemCode=='all'">
+			FROM FACTORY F
+		</if>
+		<if test="itemCode!='all'">
+			FROM FACTORY F, FACTORY_PRODUCTION_LINE FPL
+			WHERE F.FACTORY_CODE = FPL.FACTORY_CODE AND FPL.PRODUCT_CODE=#{itemCode}
+		</if>
+	</select>
+
+	<insert id="insertFactory" parameterType="factoryTO">
+		INSERT INTO FACTORY
+		(FACTORY_CODE,FACTORY_NAME,FACTORY_MANAGER_CODE,AVAILABLE_CAPACITY,AVAILABLE_STATUS,PHONE,ADRESS)
+		VALUES(#{factoryCode}, #{factoryName},#{factoryManagerCode},
+		#{availableCapacity},#{availableStatus}, #{phone},#{adress})
+	</insert>
+
+	<update id="updateFactory" parameterType="factoryTO">
+		UPDATE FACTORY SET
+		FACTORY_NAME = #{factoryName}
+		,FACTORY_MANAGER_CODE =
+		#{factoryManagerCode}
+		,AVAILABLE_CAPACITY = #{availableCapacity}
+		,AVAILABLE_STATUS = #{availableStatus}
+		,PHONE = #{phone}
+		,ADRESS = #{adress}
+		WHERE FACTORY_CODE = #{factoryCode}
+	</update>
+
+	<delete id="deleteFactory" parameterType="factoryTO">
+		DELETE FROM FACTORY
+		WHERE FACTORY_CODE = #{factoryCode}
+	</delete>
+</mapper>
